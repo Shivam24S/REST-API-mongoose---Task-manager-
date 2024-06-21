@@ -102,13 +102,24 @@ async function updatingData() {
   try {
     const db = (await client).db(database);
 
-    db.collection("Users").updateOne(
-      {
-        _id: new ObjectId("667479f2b5f0c3f1952e3d9e"),
-      },
+    // db.collection("Users").updateOne(
+    //   {
+    //     _id: new ObjectId("667479f2b5f0c3f1952e3d9e"),
+    //   },
+    //   {
+    //     $set: {
+    //       name: "updated name",
+    //     },
+    //   }
+    // );
+
+    // updatingMany
+
+    db.collection("Users").updateMany(
+      { age: 22 },
       {
         $set: {
-          name: "updated name",
+          age: 21,
         },
       }
     );
