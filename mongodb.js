@@ -141,11 +141,25 @@ const client = mongodb.MongoClient.connect(connectionURL);
 const database = "task-manager";
 
 async function deletingData() {
+  // try {
+  //   const db = (await client).db(database);
+
+  //   db.collection("Users")
+  //     .deleteOne({ name: "shiva" })
+  //     .then((result) => {
+  //       console.log(result);
+  //     });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+  // deleting many
+
   try {
     const db = (await client).db(database);
 
     db.collection("Users")
-      .deleteOne({ name: "shiva" })
+      .deleteMany({ age: 21 })
       .then((result) => {
         console.log(result);
       });
