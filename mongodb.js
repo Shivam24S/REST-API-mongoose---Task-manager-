@@ -88,6 +88,50 @@
 
 // updating in database
 
+// const mongodb = require("mongodb");
+
+// const connectionURL = "mongodb://127.0.0.1:27017";
+
+// const client = mongodb.MongoClient.connect(connectionURL);
+
+// const database = "task-manager";
+
+// const ObjectId = mongodb.ObjectId;
+
+// async function updatingData() {
+//   try {
+//     const db = (await client).db(database);
+
+//     // db.collection("Users").updateOne(
+//     //   {
+//     //     _id: new ObjectId("667479f2b5f0c3f1952e3d9e"),
+//     //   },
+//     //   {
+//     //     $set: {
+//     //       name: "updated name",
+//     //     },
+//     //   }
+//     // );
+
+//     // updatingMany
+
+//     db.collection("Users").updateMany(
+//       { age: 22 },
+//       {
+//         $set: {
+//           age: 21,
+//         },
+//       }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// updatingData();
+
+// deleting in database
+
 const mongodb = require("mongodb");
 
 const connectionURL = "mongodb://127.0.0.1:27017";
@@ -96,36 +140,18 @@ const client = mongodb.MongoClient.connect(connectionURL);
 
 const database = "task-manager";
 
-const ObjectId = mongodb.ObjectId;
-
-async function updatingData() {
+async function deletingData() {
   try {
     const db = (await client).db(database);
 
-    // db.collection("Users").updateOne(
-    //   {
-    //     _id: new ObjectId("667479f2b5f0c3f1952e3d9e"),
-    //   },
-    //   {
-    //     $set: {
-    //       name: "updated name",
-    //     },
-    //   }
-    // );
-
-    // updatingMany
-
-    db.collection("Users").updateMany(
-      { age: 22 },
-      {
-        $set: {
-          age: 21,
-        },
-      }
-    );
+    db.collection("Users")
+      .deleteOne({ name: "shiva" })
+      .then((result) => {
+        console.log(result);
+      });
   } catch (error) {
     console.log(error);
   }
 }
 
-updatingData();
+deletingData();
