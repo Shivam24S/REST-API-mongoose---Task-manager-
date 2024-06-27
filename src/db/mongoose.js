@@ -36,10 +36,21 @@ const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api");
 
+const validator = require("validator");
+
 const User = mongoose.model("User", {
   name: {
     type: String,
     required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new error("Email is not valid");
+      }
+    },
   },
   age: {
     type: Number,
@@ -54,7 +65,8 @@ const User = mongoose.model("User", {
 
 const userDetails = new User({
   name: "shivam",
-  age: -10,
+  email: "shivam@gmail.com",
+  age: 22,
 });
 
 userDetails
