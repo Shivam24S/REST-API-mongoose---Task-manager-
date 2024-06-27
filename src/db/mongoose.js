@@ -1,59 +1,63 @@
+// challenge
+
 // const mongoose = require("mongoose");
 
-// mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
-//   //   useNewUrlParser: true,
-//   //   useCreateIndex: true,
-// });
+// mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api");
 
-// const User = mongoose.model("User", {
-//   name: {
+// const task = mongoose.model("Task-data", {
+//   description: {
 //     type: String,
 //   },
-//   age: {
-//     type: Number,
+//   completed: {
+//     type: Boolean,
 //   },
 // });
 
-// const userDetails = new User({
-//   name: "shivam",
-//   age: 22,
+// const taskData = new task({
+//   description: "learning",
+//   completed: true,
 // });
 
-// userDetails
-//   .save()
-//   .then((result) => console.log(result))
-//   .catch((err) => console.log(err));
+// async function addingTask() {
+//   try {
+//     const taskInputs = taskData.save();
 
-// challenge
+//     const result = await taskInputs;
+
+//     console.log(result);
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// }
+
+// addingTask();
 
 const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api");
 
-const task = mongoose.model("Task-data", {
-  description: {
+const User = mongoose.model("User", {
+  name: {
     type: String,
+    required: true,
   },
-  completed: {
-    type: Boolean,
+  age: {
+    type: Number,
+    default: 0,
+    validate(value) {
+      if (value < 0) {
+        throw new Error("age must be positive number only");
+      }
+    },
   },
 });
 
-const taskData = new task({
-  description: "learning",
-  completed: true,
+const userDetails = new User({
+  name: "shivam",
+  age: -10,
 });
 
-async function addingTask() {
-  try {
-    const taskInputs = taskData.save();
-
-    const result = await taskInputs;
-
-    console.log(result);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
-
-addingTask();
+userDetails
+  .save()
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err.message));
