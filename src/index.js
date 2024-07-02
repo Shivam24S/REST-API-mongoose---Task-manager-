@@ -2,6 +2,8 @@ const express = require("express");
 require("../src/db/mongoose.js");
 const user = require("../src/model/users.js");
 
+const Task = require("../src/model/task.js");
+
 const app = express();
 
 // specifying port for local as well as remote
@@ -24,4 +26,17 @@ app.post("/users", (req, res) => {
 
 app.listen(port, () => {
   console.log("server running on port " + port);
+});
+
+app.post("/task", (req, res) => {
+  const taskData = new Task(req.body);
+
+  taskData
+    .save()
+    .then(() => {
+      res.status(201).send("task added successfully");
+    })
+    .catch((err) => {
+      res.status(400).send(err.message);
+    });
 });
