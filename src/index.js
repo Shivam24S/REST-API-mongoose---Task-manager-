@@ -15,10 +15,10 @@ app.post("/users", (req, res) => {
   userData
     .save()
     .then(() => {
-      console.log("user details saved");
+      res.status(200).send("user created successfully");
     })
     .catch((err) => {
-      console.log(err.message);
+      res.status(400).send(err.message);
     });
 });
 
