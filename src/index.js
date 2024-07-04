@@ -4,6 +4,7 @@ const user = require("../src/model/users.js");
 
 const Task = require("../src/model/task.js");
 
+const PracticeTask = require("../src/model/Practice-task.js");
 const app = express();
 
 // specifying port for local as well as remote
@@ -35,6 +36,19 @@ app.post("/task", (req, res) => {
     .save()
     .then(() => {
       res.status(201).send("task added successfully");
+    })
+    .catch((err) => {
+      res.status(400).send(err.message);
+    });
+});
+
+app.post("/practiceTask", (req, res) => {
+  const practiceTaskData = new PracticeTask(req.body);
+
+  practiceTaskData
+    .save()
+    .then(() => {
+      res.status(201).send("practice added successfully");
     })
     .catch((err) => {
       res.status(400).send(err.message);
