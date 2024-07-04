@@ -12,6 +12,8 @@ const port = 3000 || process.env.PORT;
 
 app.use(express.json());
 
+// creation of end points
+
 app.post("/users", (req, res) => {
   const userData = new user(req.body);
 
@@ -52,5 +54,37 @@ app.post("/practiceTask", (req, res) => {
     })
     .catch((err) => {
       res.status(400).send(err.message);
+    });
+});
+
+// reading of end point using mongo queries
+
+// getting All data
+app.get("/users", (req, res) => {
+  user
+    .find({})
+    .then((users) => {
+      return res.status(200).send(users);
+    })
+    .catch((err) => {
+      return res.status(400).send(err.message);
+    });
+});
+
+// getting individual user data
+
+app.get("/users/:id", (req, res) => {
+  const _id = req.params.id;
+
+  user
+    .findById(_id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      return res.status(400).send(err.message);
     });
 });
