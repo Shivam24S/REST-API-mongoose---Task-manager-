@@ -88,3 +88,39 @@ app.get("/users/:id", (req, res) => {
       return res.status(400).send(err.message);
     });
 });
+
+// challenge task getting tasks data
+
+app.get("/task", (req, res) => {
+  async function gettingTaskData() {
+    try {
+      const taskData = await Task.find({});
+
+      if (!taskData) {
+        return res.status(404).send("internal server error");
+      }
+      res.status(200).send(taskData);
+    } catch (error) {
+      return res.status(400).send(error.message);
+    }
+  }
+
+  gettingTaskData();
+});
+
+// challenge task getting individual task data
+
+app.get("/task/:id", async (req, res) => {
+  const _id = req.params.id;
+
+  try {
+    const task = await Task.findById(_id);
+
+    if (!task) {
+      return res.status(404).send("internal server error");
+    }
+    res.status(200).send(task);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
