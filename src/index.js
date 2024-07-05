@@ -110,3 +110,17 @@ app.get("/task/:id", async (req, res) => {
     res.status(400).send(err.message);
   }
 });
+
+// updating  user data
+
+app.patch("/users/:id", async (req, res) => {
+  try {
+    const updatedUser = await user.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    return res.status(200).send(updatedUser);
+  } catch (error) {
+    return res.status(404).send("can't able to update");
+  }
+});
