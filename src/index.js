@@ -14,98 +14,84 @@ app.use(express.json());
 
 // creation of end points
 
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
   const userData = new user(req.body);
 
-  userData
-    .save()
-    .then(() => {
-      res.status(200).send("user created successfully");
-    })
-    .catch((err) => {
-      res.status(400).send(err.message);
-    });
+  try {
+    await userData.save();
+    res.status(200).send("user created successfully");
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
 });
 
 app.listen(port, () => {
   console.log("server running on port " + port);
 });
 
-app.post("/task", (req, res) => {
+app.post("/task", async (req, res) => {
   const taskData = new Task(req.body);
 
-  taskData
-    .save()
-    .then(() => {
-      res.status(201).send("task added successfully");
-    })
-    .catch((err) => {
-      res.status(400).send(err.message);
-    });
+  try {
+    await taskData.save();
+    res.status(201).send("task added successfully");
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
 });
 
-app.post("/practiceTask", (req, res) => {
+app.post("/practiceTask", async (req, res) => {
   const practiceTaskData = new PracticeTask(req.body);
 
-  practiceTaskData
-    .save()
-    .then(() => {
-      res.status(201).send("practice added successfully");
-    })
-    .catch((err) => {
-      res.status(400).send(err.message);
-    });
+  try {
+    await practiceTaskData.save();
+    res.status(201).send("practice added successfully");
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
 });
 
 // reading of end point using mongo queries
 
 // getting All data
-app.get("/users", (req, res) => {
-  user
-    .find({})
-    .then((users) => {
-      return res.status(200).send(users);
-    })
-    .catch((err) => {
-      return res.status(400).send(err.message);
-    });
+app.get("/users", async (req, res) => {
+  try {
+    await user.find({});
+    return res.status(200).send(users);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
 });
 
 // getting individual user data
 
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", async (req, res) => {
   const _id = req.params.id;
 
-  user
-    .findById(_id)
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send("User not found");
-      }
-      res.status(200).send(user);
-    })
-    .catch((err) => {
-      return res.status(400).send(err.message);
-    });
+  try {
+    await user.findById(_id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
 });
 
 // challenge task getting tasks data
 
-app.get("/task", (req, res) => {
-  async function gettingTaskData() {
-    try {
-      const taskData = await Task.find({});
+app.get("/task", async (req, res) => {
+  try {
+    const taskData = await Task.find({});
 
-      if (!taskData) {
-        return res.status(404).send("internal server error");
-      }
-      res.status(200).send(taskData);
-    } catch (error) {
-      return res.status(400).send(error.message);
+    if (!taskData) {
+      return res.status(404).send("internal server err");
     }
+    res.status(200).send(taskData);
+  } catch (err) {
+    return res.status(400).send(err.message);
   }
-
-  gettingTaskData();
 });
 
 // challenge task getting individual task data
@@ -117,7 +103,7 @@ app.get("/task/:id", async (req, res) => {
     const task = await Task.findById(_id);
 
     if (!task) {
-      return res.status(404).send("internal server error");
+      return res.status(404).send("internal server err");
     }
     res.status(200).send(task);
   } catch (err) {
