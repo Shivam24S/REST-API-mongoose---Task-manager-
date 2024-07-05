@@ -124,3 +124,14 @@ app.patch("/users/:id", async (req, res) => {
     return res.status(404).send("can't able to update");
   }
 });
+
+// deleting user data
+
+app.delete("/users/:id", async (req, res) => {
+  try {
+    await user.findByIdAndDelete(req.params.id);
+    return res.status(200).send("user deleted successfully");
+  } catch (error) {
+    return res.status(404).send("can't able to delete");
+  }
+});
